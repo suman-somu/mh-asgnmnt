@@ -18,8 +18,8 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, onClose, onEdit
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-primarydark bg-opacity-10 backdrop-filter backdrop-blur-md rounded-3xl border border-secondarylight border-opacity-20 p-10 w-full max-w-lg">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-auto">
+      <div className="bg-primarydark bg-opacity-10 backdrop-filter backdrop-blur-md rounded-3xl border border-secondarylight border-opacity-20 p-10 m-5 w-full max-w-lg min-w-min">
         <button className="absolute top-4 right-4 p-2 text-white" onClick={onClose} >✕</button>
         <h2 className="text-3xl font-bold text-secondarylight">{user.name}</h2>
         <p className="text-secondarylight"><strong>Email:</strong> {user.email}</p>
