@@ -3,15 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { getUsers } from '../services/userService';
 import { User } from '../types/User';
 import UserItem from './UserItem';
+import UserDetailModal from './UserDetailModal';
 
 interface UserListProps {
     onView: (id: string) => void;
 }
 
-const UserList: React.FC<UserListProps> = ({ onView }) => {
+const UserList: React.FC<UserListProps> = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
+    const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
     useEffect(() => {
         getUsers(page, 10, search).then((response) => setUsers(response.data.users));
@@ -19,7 +21,7 @@ const UserList: React.FC<UserListProps> = ({ onView }) => {
 
     return (
         <main className="w-full h-full flex items-center justify-center p-10 pt-32 overflow-auto">
-            <div className="bg-secondarylight bg-opacity-5 border border-secondarylight border-opacity-50 rounded-[2rem] h-full min-w-[300px] w-full overflow-auto p-5 md:p-20 flex flex-col gap-4 items-center backdrop-filter backdrop-blur-md">
+            <div className="bg-secondarylight bg-opacity-5 border border-secondarylight border-opacity-50 rounded-xl h-full min-h-fit min-w-[300px] w-full overflow-auto p-5 md:p-20 flex flex-col gap-4 items-center backdrop-filter backdrop-blur-md">
                 <input
                     type="text"
                     value={search}
@@ -27,9 +29,9 @@ const UserList: React.FC<UserListProps> = ({ onView }) => {
                     placeholder="Search"
                     className="border border-gray-500 shadow-2xl w-full max-w-[500px] p-3 m-5 rounded-md bg-primarydark text-secondarylight placeholder-gray-400 focus:outline-none focus:border-secondarylight focus:ring focus:ring-secondarylight focus:ring-opacity-50"
                 />
-                <div className="overflow-auto flex flex-col items-center w-full">
+                <div className="overflow-auto flex flex-col items-center w-full min-h-20">
                     {users.map((user) => (
-                        <UserItem key={user._id} user={user} onView={onView} />
+                        <UserItem key={user._id} user={user} onView={setSelectedUser} />
                     ))}
                 </div>
                 <div className="flex text-primarydark font-bold gap-2 mt-4">
@@ -41,6 +43,22 @@ const UserList: React.FC<UserListProps> = ({ onView }) => {
                     </button>
                 </div>
             </div>
+            {selectedUser && (
+                <UserDetailModal
+                    user={selectedUser}
+                    onClose={() => setSelectedUser(null)}
+                    onEdit={(id: string) => {
+                        console.log('Edit user with id:', id);
+                        // Handle edit logic here
+                        setSelectedUser(null);
+                    }}
+                    onDelete={() => {
+                        // Handle delete logic here
+                        setSelectedUser(null);
+                        setUsers(users.filter(user => user._id !== selectedUser._id));
+                    }}
+                />
+            )}
         </main>
     );
 };

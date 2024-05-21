@@ -4,10 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
     const location = useLocation();
-    console.log(location.pathname)
 
     useEffect(() => {
-        console.log(location.pathname)
     }, [location.pathname])
 
     return (
