@@ -18,8 +18,8 @@ const UserList: React.FC<UserListProps> = ({ onView }) => {
     }, [page, search]);
 
     return (
-        <main className="w-screen h-screen flex items-center justify-center p-5 bg-secondarylight bg-[url('../../assets/topography.svg')] overflow-auto">
-            <div className="bg-primarydark rounded-3xl h-full min-w-[300px] w-full max-w-[1150px] overflow-auto p-5 md:p-20 flex flex-col gap-4 items-center">
+        <main className="w-full h-full flex items-center justify-center p-10 pt-32 overflow-auto">
+            <div className="bg-secondarylight bg-opacity-5 border border-secondarylight border-opacity-50 rounded-[2rem] h-full min-w-[300px] w-full overflow-auto p-5 md:p-20 flex flex-col gap-4 items-center backdrop-filter backdrop-blur-md">
                 <input
                     type="text"
                     value={search}
@@ -33,10 +33,10 @@ const UserList: React.FC<UserListProps> = ({ onView }) => {
                     ))}
                 </div>
                 <div className="flex text-primarydark font-bold gap-2 mt-4">
-                    <button onClick={() => setPage(page - 1)} disabled={page === 1} className="w-32 h-10 bg-secondarylight rounded-md disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button onClick={() => setPage(page - 1)} disabled={page === 1} className="w-32 h-10 bg-secondarylight text-primarydark hover:bg-primarylight transition-all rounded-md disabled:opacity-20 disabled:cursor-not-allowed">
                         Previous
                     </button>
-                    <button onClick={() => setPage(page + 1)} disabled={users.length < 10} className="w-32 h-10 bg-secondarylight rounded-md disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button onClick={() => setPage(page + 1)} disabled={users.length < 10} className="w-32 h-10 bg-secondarylight text-primarydark hover:bg-primarylight transition-all rounded-md disabled:opacity-20 disabled:cursor-not-allowed">
                         Next
                     </button>
                 </div>
