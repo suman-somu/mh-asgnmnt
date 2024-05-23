@@ -44,7 +44,10 @@ const UserList: React.FC = () => {
                 <input
                     type="text"
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => {
+                        setSearch(e.target.value)
+                        setPage(1)
+                    }}
                     placeholder="Search"
                     className="border border-gray-500 shadow-2xl w-full max-w-[500px] p-3 m-5 rounded-md bg-primarydark text-secondarylight placeholder-gray-400 focus:outline-none focus:border-secondarylight focus:ring focus:ring-secondarylight focus:ring-opacity-50"
                 />
