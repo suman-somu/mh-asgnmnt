@@ -37,7 +37,7 @@ To add sufficient data for testing, follow these steps:
 
 1. Stop the backend process by pressing `Ctrl+C` in the terminal where it's running.
 
-2. Run the script to seed the database:
+2. Run the script.js to seed the database:
   `node "path/to/mh-asgnmnt/be/script.js"`
   Make sure to replace `"path/to/mh-asgnmnt/be/script.js"` with the actual path to the `script.js` file in your project.
 

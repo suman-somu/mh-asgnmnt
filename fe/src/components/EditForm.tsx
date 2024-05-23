@@ -1,4 +1,3 @@
-// src/components/EditForm.tsx
 import React, { useState, useEffect } from 'react';
 import { User } from '../types/User';
 import { updateUser, getUserById } from '../services/userService';
@@ -16,8 +15,7 @@ const EditForm: React.FC<EditFormProps> = ({ userId, onSave, onClose }) => {
     if (userId) {
       getUserById(userId).then((response) => {
         const userData = response.data;
-        // Ensure the date is in the correct format
-        if (userData.dob) {
+                if (userData.dob) {
           userData.dob = new Date(userData.dob).toISOString().split('T')[0];
         }
         setUser(userData);

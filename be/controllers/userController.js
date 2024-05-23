@@ -1,6 +1,5 @@
 const User = require('../models/User');
 
-// Create a new user
 exports.createUser = async (req, res) => {
   try {
     const { name, dob, contact, email, description } = req.body;
@@ -12,7 +11,6 @@ exports.createUser = async (req, res) => {
   }
 };
 
-// Get a list of users with pagination
 exports.getUsers = async (req, res) => {
   try {
     const { page = 1, limit = 10, search = '' } = req.query;
@@ -32,7 +30,6 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-// Get a user by ID
 exports.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -43,7 +40,6 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-// Update a user
 exports.updateUser = async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -54,7 +50,6 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-// Delete a user
 exports.deleteUser = async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);

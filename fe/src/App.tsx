@@ -1,4 +1,3 @@
-// src/App.tsx
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import UserList from "./components/UserList";
 import UserForm from "./components/UserForm";

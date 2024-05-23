@@ -1,4 +1,3 @@
-// src/components/UserForm.tsx
 import React, { useState, useEffect } from 'react';
 import { User } from '../types/User';
 import { createUser, updateUser, getUserById } from '../services/userService';
