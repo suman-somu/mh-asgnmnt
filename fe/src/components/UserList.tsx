@@ -10,11 +10,15 @@ const UserList: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
+    const [totalPages, setTotalPages] = useState(1);
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 
     useEffect(() => {
-        getUsers(page, 10, search).then((response) => setUsers(response.data.users));
+        getUsers(page, 10, search).then((response) => {
+            setUsers(response.data.users);
+            setTotalPages(response.data.totalPages);
+        });
     }, [page, search]);
 
     const handleEdit = (user: User) => {
@@ -26,6 +30,12 @@ const UserList: React.FC = () => {
         setIsEditFormOpen(false);
         setSelectedUser(null);
         getUsers(page, 10, search).then((response) => setUsers(response.data.users));
+    };
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setPage(newPage);
+        }
     };
 
     return (
@@ -43,11 +53,28 @@ const UserList: React.FC = () => {
                         <UserItem key={user._id} user={user} onView={setSelectedUser} />
                     ))}
                 </div>
-                <div className="flex text-primarydark font-bold gap-2 mt-4">
-                    <button onClick={() => setPage(page - 1)} disabled={page === 1} className="w-32 h-10 bg-secondarylight text-primarydark hover:bg-primarylight transition-all rounded-md disabled:opacity-20 disabled:cursor-not-allowed">
+                <div className="flex flex-wrap gap-2 mt-4">
+                    <button
+                        onClick={() => handlePageChange(page - 1)}
+                        disabled={page === 1}
+                        className="w-28 h-10 bg-secondarylight text-primarydark hover:bg-primarylight transition-all rounded-md disabled:opacity-20 disabled:cursor-not-allowed"
+                    >
                         Previous
                     </button>
-                    <button onClick={() => setPage(page + 1)} disabled={users.length < 10} className="w-32 h-10 bg-secondarylight text-primarydark hover:bg-primarylight transition-all rounded-md disabled:opacity-20 disabled:cursor-not-allowed">
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                            key={i + 1}
+                            onClick={() => handlePageChange(i + 1)}
+                            className={`w-10 h-10 ${page === i + 1 ? 'bg-secondarylight text-primarydark' : 'bg-primarylight bg-opacity-10 border border-primarylight text-secondarylight'} hover:bg-primarylight hover:text-primarydark transition-all rounded-md`}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+                    <button
+                        onClick={() => handlePageChange(page + 1)}
+                        disabled={page === totalPages}
+                        className="w-28 h-10 bg-secondarylight text-primarydark hover:bg-primarylight transition-all rounded-md disabled:opacity-20 disabled:cursor-not-allowed"
+                    >
                         Next
                     </button>
                 </div>
