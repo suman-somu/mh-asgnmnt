@@ -11,11 +11,7 @@ const App: React.FC = () => {
       path: "/",
       element: (
         <Layout>
-          <UserList onView={
-            (id: string) => {
-              console.log(id);
-            }
-          } />
+          <UserList />
         </Layout>
       ),
     },

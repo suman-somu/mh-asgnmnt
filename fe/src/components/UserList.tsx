@@ -4,20 +4,29 @@ import { getUsers } from '../services/userService';
 import { User } from '../types/User';
 import UserItem from './UserItem';
 import UserDetailModal from './UserDetailModal';
+import EditForm from './EditForm';
 
-interface UserListProps {
-    onView: (id: string) => void;
-}
-
-const UserList: React.FC<UserListProps> = () => {
+const UserList: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
+    const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 
     useEffect(() => {
         getUsers(page, 10, search).then((response) => setUsers(response.data.users));
     }, [page, search]);
+
+    const handleEdit = (user: User) => {
+        setSelectedUser(user);
+        setIsEditFormOpen(true);
+    };
+
+    const handleCloseEditForm = () => {
+        setIsEditFormOpen(false);
+        setSelectedUser(null);
+        getUsers(page, 10, search).then((response) => setUsers(response.data.users));
+    };
 
     return (
         <main className="w-full h-full flex items-center justify-center p-10 pt-32 overflow-auto">
@@ -47,17 +56,21 @@ const UserList: React.FC<UserListProps> = () => {
                 <UserDetailModal
                     user={selectedUser}
                     onClose={() => setSelectedUser(null)}
-                    onEdit={(id: string) => {
-                        console.log('Edit user with id:', id);
-                        // Handle edit logic here
-                        setSelectedUser(null);
-                    }}
+                    onEdit={() => handleEdit(selectedUser)}
                     onDelete={() => {
-                        // Handle delete logic here
                         setSelectedUser(null);
-                        setUsers(users.filter(user => user._id !== selectedUser._id));
+                        getUsers(page, 10, search).then((response) => setUsers(response.data.users));
                     }}
                 />
+            )}
+            {isEditFormOpen && selectedUser && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <EditForm
+                        onClose={() => setIsEditFormOpen(false)}
+                        userId={selectedUser._id ?? ""}
+                        onSave={handleCloseEditForm}
+                    />
+                </div>
             )}
         </main>
     );
